@@ -78,7 +78,7 @@ const COMPONENTS = {
 class Autocomplete extends React.Component<IProps> {
     public static defaultProps = {
         isClearable: false,
-        isCreatableSelect: false,
+        isCreatableSelect: true,
         isMulti: false,
         value: null
     }
