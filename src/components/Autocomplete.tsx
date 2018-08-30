@@ -1,38 +1,22 @@
 import MenuItem from '@material-ui/core/MenuItem'
-import Paper from '@material-ui/core/Paper'
-import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import React from 'react'
 import Select from 'react-select'
 import CreatableSelect from 'react-select/lib/Creatable'
+import Paper from './Paper'
+import TextField from './TextField'
 
 interface IProps {
     isClearable: boolean
     isCreatableSelect: boolean
     isMulti: boolean
     value: any
+    formatCreateLabel: any
+    placeholder: string
+    options: Array<{ label: string, value: string }>
     onChange?: (value) => void
     onCreateOption?: (value) => void
 }
-
-const suggestions = [
-    { label: 'Afghanistan' },
-    { label: 'Aland Islands' },
-    { label: 'Albania' },
-    { label: 'Algeria' },
-    { label: 'American Samoa' },
-    { label: 'Andorra' },
-    { label: 'Angola' },
-    { label: 'Anguilla' },
-    { label: 'Antarctica' },
-    { label: 'Antigua and Barbuda' },
-    { label: 'Argentina' },
-    { label: 'Armenia' },
-    { label: 'Aruba' }
-].map(suggestion => ({
-    label: suggestion.label,
-    value: suggestion.label
-}))
 
 const Option = props => {
     return (
@@ -60,19 +44,19 @@ const NoOptionsMessage = props => {
 }
 
 const inputComponent = ({ inputRef, ...props }) =>
-    <div ref={ inputRef } { ...props } />
+    <div ref={ inputRef } style={ { display: 'flex' } } { ...props } />
 
 const Control = props => {
     return (
       <TextField
         fullWidth
         InputProps={ {
-          inputComponent,
-          inputProps: {
-            children: props.children,
-            inputRef: props.innerRef,
-            ...props.innerProps,
-          },
+            inputComponent,
+            inputProps: {
+                children: props.children,
+                inputRef: props.innerRef,
+                ...props.innerProps,
+            },
         } }
         { ...props.selectProps.textFieldProps }
       />
@@ -93,7 +77,7 @@ const COMPONENTS = {
 
 class Autocomplete extends React.Component<IProps> {
     public static defaultProps = {
-        isClearable: true,
+        isClearable: false,
         isCreatableSelect: false,
         isMulti: false,
         value: null
@@ -106,27 +90,21 @@ class Autocomplete extends React.Component<IProps> {
     }
 
     private renderSelect() {
+        const { value, ...otherProps } = this.props
         return (
             <Select
-                value={ this.props.value }
-                options={ suggestions }
+                { ...otherProps }
                 components={ COMPONENTS }
-                placeholder='Selecione uma opção'
-                onChange={ this.props.onChange }
             />
         )
     }
 
     private renderCreatableSelect() {
+        const { value, ...otherProps } = this.props
         return (
             <CreatableSelect
-                isClearable={ this.props.isClearable }
-                value={ this.props.value }
-                options={ suggestions }
+                { ...otherProps }
                 components={ COMPONENTS }
-                placeholder='Selecione'
-                onChange={ this.props.onChange }
-                onCreateOption={ this.props.onCreateOption }
             />
         )
     }
